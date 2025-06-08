@@ -1,14 +1,14 @@
 import requests
 
 response_without_method = requests.delete("https://playground.learnqa.ru/ajax/api/compare_query_type")
-print(f"Запрос без указания метода возвращает: {response_without_method.text}")
+print(f"Запрос без указания метода возвращает: {response_without_method.status_code} {response_without_method.text}")
 
 response_out_ex_list = requests.patch("https://playground.learnqa.ru/ajax/api/compare_query_type")
-print(f"Запрос не из списка к заданию возвращает код ошибки: {response_out_ex_list.status_code}")
+print(f"Запрос не из списка к заданию возвращает код ошибки: {response_out_ex_list.status_code} {response_out_ex_list.text}")
 
 response_with_right_method = requests.post("https://playground.learnqa.ru/ajax/api/compare_query_type",
                                            data={"method": "POST"})
-print(f"Запрос с правильным значением method возвращает: {response_with_right_method.text}")
+print(f"Запрос с правильным значением method возвращает: {response_with_right_method.status_code} {response_with_right_method.text}")
 
 print("===============================")
 
