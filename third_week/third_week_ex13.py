@@ -23,8 +23,8 @@ class TestUserAgent:
         response_browser = response_dict.get('browser')
         response_device = response_dict.get('device')
 
-        assert response_platform == exp_platform_value, f"Get {response_platform} doesn't match with {exp_platform_value}"
-        assert response_browser == exp_browser_value, f"Get {response_browser} doesn't match with {exp_browser_value}"
-        assert response_device == exp_device_value, f"Get {response_device} doesn't match with {exp_device_value}"
+        assert response_platform == exp_platform_value, f"For agent value {user_agent_value} received platform value {response_platform}. This doesn't match with expected platform value {exp_platform_value}"
+        assert response_browser == exp_browser_value, f"For agent value {user_agent_value} received browser value {response_browser}. This doesn't match with expected browser value {exp_browser_value}"
+        assert response_device == exp_device_value, f"For agent value {user_agent_value} received device value {response_device}. This doesn't match with expected device value {exp_device_value}"
 
 
