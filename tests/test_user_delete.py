@@ -1,9 +1,16 @@
+import allure
 from lib.my_requests import MyRequests
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
 
+
+@allure.epic("Delete user cases")
+@allure.feature("Deleting")
 class TestUserDelete(BaseCase):
-    #Ex18.1 - Попытка удалить пользователя по ID 2
+    # Ex18.1 - Попытка удалить пользователя по ID 2
+    @allure.story("Positive delete scenario")
+    @allure.severity(allure.severity_level.MINOR)
+    @allure.description("This test prohibit delete user = 2")
     def test_negative_delete_user_2(self):
         data = {
             'email': 'vinkotov@example.com',
@@ -24,7 +31,10 @@ class TestUserDelete(BaseCase):
         actual_message = response_2.content.decode("utf-8")
         assert expected_message in actual_message, f"Unexpected error message: {actual_message}"
 
-    #Ex18.2 - Позитивный тест на удаление
+    # Ex18.2 - Позитивный тест на удаление
+    @allure.story("Positive delete scenario")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.description("This test delete created user")
     def test_delete_user(self):
         data = self.prepare_registration_data()
         response_1 = MyRequests.post("/user/", data=data)
@@ -51,8 +61,10 @@ class TestUserDelete(BaseCase):
         )
         Assertions.assert_code_status(response_3, 200)
 
-
-    #Ex18.3 - Негативный, попробовать удалить пользователя, будучи авторизованными другим пользователем
+    # Ex18.3 - Негативный, попробовать удалить пользователя, будучи авторизованными другим пользователем
+    @allure.story("Negative delete scenario")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.description("This test prohibit delete user with authentication by other user")
     def test_negative_delete_user_with_auth_other_user(self):
         data = self.prepare_registration_data()
         response_1 = MyRequests.post("/user/", data=data)

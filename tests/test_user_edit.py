@@ -1,9 +1,15 @@
+import allure
 from lib.my_requests import MyRequests
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
 
 
+@allure.epic("Edit user cases")
+@allure.feature("Editing")
 class TestUserEdit(BaseCase):
+    @allure.story("Positive edit scenario")
+    @allure.severity(allure.severity_level.MINOR)
+    @allure.description("This test successfuly edit just created user")
     def test_edit_just_created_user(self):
         # REGISTER
         register_data = self.prepare_registration_data()
@@ -53,7 +59,10 @@ class TestUserEdit(BaseCase):
             f"Wrong name of the user after edit"
         )
 
-# Ex17.1 - Попытаемся изменить данные пользователя, будучи неавторизованными
+    # Ex17.1 - Попытаемся изменить данные пользователя, будучи неавторизованными
+    @allure.story("Negative edit scenario")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.description("This test prohibits editing a user without an account")
     def test_negative_edit_user_without_auth(self):
         data = self.prepare_registration_data()
         response_1 = MyRequests.post("/user/", data=data)
@@ -80,7 +89,10 @@ class TestUserEdit(BaseCase):
         actual_message = response_2.content.decode("utf-8")
         assert expected_message in actual_message, f"Unexpected error message: {actual_message}"
 
-# Ex17.2 - Попытаемся изменить данные пользователя, будучи авторизованными другим пользователем
+    # Ex17.2 - Попытаемся изменить данные пользователя, будучи авторизованными другим пользователем
+    @allure.story("Negative edit scenario")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.description("This test prevents editing a user when logged in as another user.")
     def test_negative_edit_user_with_auth_other_user(self):
         data = self.prepare_registration_data()
         response_1 = MyRequests.post("/user/", data=data)
@@ -113,8 +125,11 @@ class TestUserEdit(BaseCase):
         actual_message = response_3.content.decode("utf-8")
         assert expected_message in actual_message, f"Unexpected error message: {actual_message}"
 
-# Ex17.3 - Попытаемся изменить email пользователя, будучи авторизованными тем же пользователем,
-# на новый email без символа @
+    # Ex17.3 - Попытаемся изменить email пользователя, будучи авторизованными тем же пользователем,
+    # на новый email без символа @
+    @allure.story("Negative edit scenario")
+    @allure.severity(allure.severity_level.MINOR)
+    @allure.description("The test checks the prohibition of changing the email to an address without @")
     def test_negative_edit_user_with_incorrect_email(self):
         data = self.prepare_registration_data()
         response_1 = MyRequests.post("/user/", data=data)
@@ -147,8 +162,11 @@ class TestUserEdit(BaseCase):
         actual_message = response_3.content.decode("utf-8")
         assert expected_message in actual_message, f"Unexpected error message: {actual_message}"
 
-# Ex17.4 - - Попытаемся изменить firstName пользователя, будучи авторизованными тем же пользователем,
-# на очень короткое значение в один символ
+    # Ex17.4 - - Попытаемся изменить firstName пользователя, будучи авторизованными тем же пользователем,
+    # на очень короткое значение в один символ
+    @allure.story("Negative edit scenario")
+    @allure.severity(allure.severity_level.MINOR)
+    @allure.description("The test checks the prohibition of changing the email to a name of 1 symbol")
     def test_negative_edit_user_with_incorrect_firstname(self):
         data = self.prepare_registration_data()
         response_1 = MyRequests.post("/user/", data=data)

@@ -6,6 +6,7 @@ from lib.my_requests import MyRequests
 
 
 @allure.epic("Authorization cases")
+@allure.feature("Authentication")
 class TestUserAuth(BaseCase):
     exclude_params = {
         ("no_cookie"),
@@ -24,6 +25,8 @@ class TestUserAuth(BaseCase):
         self.token = self.get_header(response1, "x-csrf-token")
         self.user_id_from_auth_method = self.get_json_value(response1, "user_id")
 
+    @allure.story("Positive auth scenario")
+    @allure.severity(allure.severity_level.NORMAL)
     @allure.description("This test successfuly authorize user by email and password")
     def test_user_auth(self):
 
@@ -40,6 +43,8 @@ class TestUserAuth(BaseCase):
             "User id from auth method is not equal to user id from check method"
         )
 
+    @allure.story("Negative auth scenario")
+    @allure.severity(allure.severity_level.CRITICAL)
     @allure.description("This test checks authorization status without sending auth cookie or token")
     @pytest.mark.parametrize('condition', exclude_params)
     def test_negative_auth_check(self, condition):
@@ -61,11 +66,3 @@ class TestUserAuth(BaseCase):
             0,
             f"User is authorized with condition {condition}"
         )
-
-
-
-
-
-
-
-
